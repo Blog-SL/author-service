@@ -7,13 +7,15 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 COPY tsconfig.json ./
-COPY .env ./
 
 # Install dependencies
 RUN npm install
 
 # Copy source code
 COPY . .
+
+# build TypeScript
+RUN npm run build
 
 # Expose port 
 EXPOSE 5001
