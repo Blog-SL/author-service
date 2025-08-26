@@ -84,16 +84,27 @@ export const updateBlog = TryCatch(async (req: AuthenticatedRequest, res) => {
     imageUrl = cloud.secure_url;
   }
 
-  const updatedBlog = await sql`UPDATE blogs SET 
-  title = ${title || blog[0].title},
-  description = ${title || blog[0].description},
-  image= ${imageUrl},
-  blogcontent = ${title || blog[0].blogcontent},
-  category = ${title || blog[0].category}
+  // const updatedBlog = await sql`UPDATE blogs SET
+  // title = ${title || blog[0].title},
+  // description = ${title || blog[0].description},
+  // image= ${imageUrl},
+  // blogcontent = ${title || blog[0].blogcontent},
+  // category = ${title || blog[0].category}
 
-  WHERE id = ${id}
-  RETURNING *
-  `;
+  // WHERE id = ${id}
+  // RETURNING *
+  // `;
+
+  const updatedBlog = await sql`UPDATE blogs SET
+    title = ${title || blog[0].title},
+    description = ${description || blog[0].description},
+    image= ${imageUrl},
+    blogcontent = ${blogcontent || blog[0].blogcontent},
+    category = ${category || blog[0].category}
+
+    WHERE id = ${id}
+    RETURNING *
+    `;
 
   await invalidateChacheJob(["blogs:*", `blog:${id}`]);
 
